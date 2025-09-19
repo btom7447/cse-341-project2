@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Contacts API",
-    "description": "Users API",
+    "title": "Bookings API",
+    "description": "API for managing users and bookings with JWT authentication",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -13,189 +13,188 @@
   "paths": {
     "/": {
       "get": {
-        "tags": [
-          "Hello World"
-        ],
-        "description": "",
+        "tags": ["Hello World"],
+        "summary": "API root endpoint",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Returns Hello World"
           }
         }
       }
     },
+
     "/users/register": {
       "post": {
-        "tags": [],
-        "description": "",
+        "tags": ["Users"],
+        "summary": "Register a new user",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
+                "name": { "type": "string", "example": "Ekemini Tom" },
+                "email": { "type": "string", "example": "ekeminitom@gmail.com" },
+                "password": { "type": "string", "example": "Ekemini@Tom" },
+                "role": { "type": "string", "example": "admin" }
+              },
+              "required": ["name", "email", "password"]
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "User registered successfully" },
+          "400": { "description": "Validation error or user exists" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
+
     "/users/login": {
       "post": {
-        "tags": [],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
+        "tags": ["Users"],
+        "summary": "Login user and receive JWT token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "type": "string", "example": "benjamintom@gmail.com" },
+                "password": { "type": "string", "example": "Benjamin@Tom" }
+              },
+              "required": ["email", "password"]
+            }
           }
+        ],
+        "responses": {
+          "200": { "description": "Login successful, returns JWT token" },
+          "400": { "description": "Invalid email or password" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
-    "/bookings/": {
+
+    "/bookings": {
       "get": {
-        "tags": [],
-        "description": "",
+        "tags": ["Bookings"],
+        "summary": "Get all bookings",
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Returns list of bookings" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
-        "tags": [],
-        "description": "",
+        "tags": ["Bookings"],
+        "summary": "Create a booking (requires token)",
         "parameters": [
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "JWT token. Format: Bearer {token}"
           },
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "movie": {
-                  "example": "any"
-                },
-                "theater": {
-                  "example": "any"
-                },
-                "showTime": {
-                  "example": "any"
-                },
-                "seat": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                },
-                "quantity": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                }
-              }
+                "movie": { "type": "string", "example": "Red Notice" },
+                "theater": { "type": "string", "example": "Blue Ray" },
+                "showTime": { "type": "string", "example": "2025-09-20T19:00:00Z" },
+                "seat": { "type": "string", "example": "A09" },
+                "price": { "type": "number", "example": 15.0 },
+                "quantity": { "type": "integer", "example": 1 },
+                "category": { "type": "string", "example": "Action" }
+              },
+              "required": ["movie", "theater", "showTime", "seat", "price", "quantity"]
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "201": { "description": "Booking created successfully" },
+          "401": { "description": "Unauthorized - token missing" },
+          "403": { "description": "Forbidden - invalid token" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
+
     "/bookings/{id}": {
       "put": {
-        "tags": [],
-        "description": "",
+        "tags": ["Bookings"],
+        "summary": "Update booking by ID (requires token)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "example": "68cdaa497827f03d7cdb1386"
           },
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "JWT token. Format: Bearer {token}"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "movie": { "type": "string", "example": "The Conjuring - The Finale" },
+                "theater": { "type": "string", "example": "Blue Rays" },
+                "showTime": { "type": "string", "example": "2025-09-20T19:00:00Z" },
+                "seat": { "type": "string", "example": "F18" },
+                "price": { "type": "number", "example": 25.0 },
+                "quantity": { "type": "integer", "example": 5 },
+                "category": { "type": "string", "example": "Horror" }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Booking updated successfully" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden - invalid token" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "delete": {
-        "tags": [],
-        "description": "",
+        "tags": ["Bookings"],
+        "summary": "Delete booking by ID (requires token)",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "example": "68cdaa497827f03d7cdb1386"
           },
           {
-            "name": "authorization",
+            "name": "Authorization",
             "in": "header",
-            "type": "string"
+            "type": "string",
+            "required": true,
+            "description": "JWT token. Format: Bearer {token}"
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
+          "200": { "description": "Booking deleted successfully" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden - invalid token" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     }
