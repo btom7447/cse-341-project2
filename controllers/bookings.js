@@ -12,6 +12,7 @@ exports.validate = [
 ];
 
 exports.getAll = async (req, res) => {
+  //#swagger.tags=['Bookings]
   try {
     const db = getDb();
     const bookings = await db.collection("bookings").find().toArray();
@@ -22,9 +23,9 @@ exports.getAll = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  //#swagger.tags=['Bookings]
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-
   try {
     const db = getDb();
     const { movie, theater, showTime, seat, price, quantity, category } = req.body;
@@ -41,11 +42,13 @@ exports.create = async (req, res) => {
     });
     res.status(201).json(result);
   } catch (err) {
+    console.error("Bookings error:", err); // 👈 log it
     res.status(500).json({ error: "Server error" });
   }
 };
 
 exports.update = async (req, res) => {
+  //#swagger.tags=['Bookings]
   try {
     const db = getDb();
     const { movie, theater, showTime, seat, price, quantity, category } = req.body;
@@ -55,11 +58,13 @@ exports.update = async (req, res) => {
     );
     res.json(result);
   } catch (err) {
+    console.error("Bookings error:", err); // 👈 log it
     res.status(500).json({ error: "Server error" });
   }
 };
 
 exports.delete = async (req, res) => {
+  //#swagger.tags=['Bookings]
   try {
     const db = getDb();
     const result = await db.collection("bookings").deleteOne({
@@ -67,6 +72,7 @@ exports.delete = async (req, res) => {
     });
     res.json(result);
   } catch (err) {
+    console.error("Bookings error:", err); // 👈 log it
     res.status(500).json({ error: "Server error" });
   }
 };

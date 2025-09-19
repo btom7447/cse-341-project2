@@ -1,32 +1,76 @@
-// Local Host
-### Get all Contacts
-http://localhost:3000/contacts
+# ---------------------------
+# USERS ROUTES
+# ---------------------------
 
-
-### Create Contact
-POST http://localhost:3000/contacts HTTP/1.1
-content-type: application/json
-
-{
-    "firstName": "Grace", 
-    "lastName": "Tom", 
-    "email": "gtom7447@gmail.com",
-    "favoriteColor": "Saphire", 
-    "birthday": "1970-06-20"
-}
-
-### PUT Contact
-PUT http://localhost:3000/contacts/68c417900a92527f55fccade HTTP/1.1
-content-type: application/json
-
-{
-    "firstName": "Akuchi", 
-    "lastName": "Mark", 
-    "email": "akuchi4774@gmail.com",
-    "favoriteColor": "Emerald", 
-    "birthday": "1980-06-20"
-}
-
-### DELETE Contact
-DELETE http://localhost:3000/contacts/68c417900a92527f55fccade
+### Register User (choose role: admin or user)
+POST http://localhost:3000/users/register
 Content-Type: application/json
+
+{
+  "name": "Ekemini Tom",
+  "email": "ekeminitom@gmail.com",
+  "password": "Ekemini@Tom",
+  "role": "admin"
+}
+
+### Register User (default role = user if not provided)
+POST http://localhost:3000/users/register
+Content-Type: application/json
+
+{
+  "name": "Benjamin Tom",
+  "email": "benjamintom@gmail.com",
+  "password": "Benjamin@Tom"
+}
+
+### Login User
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "benjamintom@gmail.com",
+  "password": "Benjamin@Tom"
+}
+
+# Copy the "token" from the login response and replace {{TOKEN}} below
+
+# ---------------------------
+# BOOKINGS ROUTES
+# ---------------------------
+
+### Get All Bookings
+GET http://localhost:3000/bookings
+
+### Create Booking (requires token)
+POST http://localhost:3000/bookings
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts
+
+{
+  "movie": "Red Notice",
+  "theater": "Blue Ray",
+  "showTime": "2025-09-20T19:00:00Z",
+  "seat": "A09",
+  "price": 15.00,
+  "quantity": 1,
+  "category": "Action"
+}
+
+### Update Booking (requires token)
+PUT http://localhost:3000/bookings/68cdaa497827f03d7cdb1386
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts
+
+{
+  "movie": "The Conjuring - The Finale",
+  "theater": "Blue Rays",
+  "showTime": "2025-09-20T19:00:00Z",
+  "seat": "F18",
+  "price": 25.00,
+  "quantity": 5,
+  "category": "Horror"
+}
+
+### Delete Booking (requires token)
+DELETE http://localhost:3000/bookings/68cdaa497827f03d7cdb1386
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts

@@ -26,6 +26,7 @@
     },
     "/users/register": {
       "post": {
+        "tags": [],
         "description": "",
         "parameters": [
           {
@@ -34,9 +35,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
-                  "example": "any"
-                },
                 "email": {
                   "example": "any"
                 },
@@ -48,8 +46,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request"
@@ -62,27 +60,22 @@
     },
     "/users/login": {
       "post": {
+        "tags": [],
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/bookings/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
           },
           "400": {
             "description": "Bad Request"
@@ -91,21 +84,9 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/items/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
       },
       "post": {
+        "tags": [],
         "description": "",
         "parameters": [
           {
@@ -119,10 +100,25 @@
             "schema": {
               "type": "object",
               "properties": {
-                "name": {
+                "movie": {
+                  "example": "any"
+                },
+                "theater": {
+                  "example": "any"
+                },
+                "showTime": {
+                  "example": "any"
+                },
+                "seat": {
                   "example": "any"
                 },
                 "price": {
+                  "example": "any"
+                },
+                "quantity": {
+                  "example": "any"
+                },
+                "category": {
                   "example": "any"
                 }
               }
@@ -130,11 +126,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
+          "200": {
+            "description": "OK"
           },
           "401": {
             "description": "Unauthorized"
@@ -148,8 +141,9 @@
         }
       }
     },
-    "/items/{id}": {
+    "/bookings/{id}": {
       "put": {
+        "tags": [],
         "description": "",
         "parameters": [
           {
@@ -162,21 +156,6 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -195,6 +174,7 @@
         }
       },
       "delete": {
+        "tags": [],
         "description": "",
         "parameters": [
           {
@@ -210,17 +190,11 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
           }
         }
       }
