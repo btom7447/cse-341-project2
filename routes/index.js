@@ -1,11 +1,15 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.get('/', (req, res) => { 
+// Hello world test route
+router.get("/", (req, res) => { 
     //#swagger.tags=['Hello World']
-    res.send('Hello World')
+    res.send("Hello World");
 });
 
-router.use('/users', require('./users'));
-router.use('/items', require('./items'));
+// User routes
+router.use("/users", require("./users"));
+
+// Booking routes (was '/items', now '/bookings')
+router.use("/bookings", require("./bookings"));
 
 module.exports = router;
