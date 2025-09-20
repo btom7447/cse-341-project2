@@ -1,15 +1,18 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
+  let authHeader = req.headers["authorization"];
   if (!authHeader) {
     return res.status(401).json({ error: "No token provided" });
   }
 
-  // Handle "Bearer <token>" OR just "<token>"
-  const token = authHeader.startsWith("Bearer ")
-    ? authHeader.split(" ")[1]
-    : authHeader;
+  // If user pasted only the raw token, prepend "Bearer "
+  if (!authHeader.startsWith("Bearer ")) {
+    authHeader = `Bearer ${authHeader}`;
+  }
+
+  // Always split properly
+  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
