@@ -16,8 +16,9 @@ exports.getAll = async (req, res) => {
   try {
     const db = getDb();
     const bookings = await db.collection("bookings").find().toArray();
-    res.json(bookings);
+    res.status(200).json({ bookings });
   } catch (err) {
+    console.error("Get all bookings error:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -25,10 +26,14 @@ exports.getAll = async (req, res) => {
 exports.create = async (req, res) => {
   //#swagger.tags=['Bookings]
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
     const db = getDb();
     const { movie, theater, showTime, seat, price, quantity, category } = req.body;
+
     const result = await db.collection("bookings").insertOne({
       movie,
       theater,
@@ -40,9 +45,13 @@ exports.create = async (req, res) => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    res.status(201).json(result);
+
+    res.status(201).json({
+      message: "Booking created successfully",
+      bookingId: result.insertedId,
+    });
   } catch (err) {
-    console.error("Bookings error:", err); // 👈 log it
+    console.error("Create booking error:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -50,15 +59,37 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   //#swagger.tags=['Bookings]
   try {
+    const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid booking ID format" });
+    }
+
     const db = getDb();
     const { movie, theater, showTime, seat, price, quantity, category } = req.body;
+
     const result = await db.collection("bookings").updateOne(
-      { _id: new ObjectId(req.params.id) },
-      { $set: { movie, theater, showTime, seat, price, quantity, category, updatedAt: new Date() } }
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          movie,
+          theater,
+          showTime,
+          seat,
+          price,
+          quantity,
+          category,
+          updatedAt: new Date(),
+        },
+      }
     );
-    res.json(result);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.status(200).json({ message: "Booking updated successfully" });
   } catch (err) {
-    console.error("Bookings error:", err); // 👈 log it
+    console.error("Update booking error:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -66,13 +97,21 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   //#swagger.tags=['Bookings]
   try {
+    const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ error: "Invalid booking ID format" });
+    }
+
     const db = getDb();
-    const result = await db.collection("bookings").deleteOne({
-      _id: new ObjectId(req.params.id),
-    });
-    res.json(result);
+    const result = await db.collection("bookings").deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    res.status(200).json({ message: "Booking deleted successfully" });
   } catch (err) {
-    console.error("Bookings error:", err); // 👈 log it
+    console.error("Delete booking error:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
