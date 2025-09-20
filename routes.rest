@@ -34,15 +34,15 @@ GET http://localhost:3000/bookings
 ### Create Booking (requires token)
 POST http://localhost:3000/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODJlZDc2YjdkYzIzMjEyMmY1NCIsImVtYWlsIjoiZWtlbWluaXRvbUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTgzNTcxODAsImV4cCI6MTc1ODM2MDc4MH0.ASSSoQVobgsvJkxc8v8FYa8hLnL5Squd9eEK6O0vpQg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODJlZDc2YjdkYzIzMjEyMmY1NCIsImVtYWlsIjoiZWtlbWluaXRvbUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTgzODE0OTQsImV4cCI6MTc1ODM4NTA5NH0.HEV1GVyoNAxqzy2Ps0T96L6Hzi7i5cmcCpnUS4SOF50
 
 {
-  "movie": "Red Notice",
-  "theater": "Blue Ray",
+  "movie": "The Man from UNCLE",
+  "theater": "Lionsgate",
   "showTime": "2025-09-20T19:00:00Z",
   "seat": "A09",
-  "price": 15.00,
-  "quantity": 1,
+  "price": 12.00,
+  "quantity": 3,
   "category": "Action"
 }
 
