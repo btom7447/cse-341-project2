@@ -7,18 +7,22 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter JWT token in format: Bearer {token}"
+    }
+  },
   "paths": {
     "/": {
       "get": {
         "tags": ["Hello World"],
         "summary": "API root endpoint",
         "responses": {
-          "200": {
-            "description": "Returns Hello World"
-          }
+          "200": { "description": "Returns Hello World" }
         }
       }
     },
@@ -91,14 +95,8 @@
       "post": {
         "tags": ["Bookings"],
         "summary": "Create a booking (requires token)",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "JWT token. Format: Bearer {token}"
-          },
           {
             "name": "body",
             "in": "body",
@@ -131,6 +129,7 @@
       "put": {
         "tags": ["Bookings"],
         "summary": "Update booking by ID (requires token)",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -138,13 +137,6 @@
             "required": true,
             "type": "string",
             "example": "68cdaa497827f03d7cdb1386"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "JWT token. Format: Bearer {token}"
           },
           {
             "name": "body",
@@ -174,6 +166,7 @@
       "delete": {
         "tags": ["Bookings"],
         "summary": "Delete booking by ID (requires token)",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -181,13 +174,6 @@
             "required": true,
             "type": "string",
             "example": "68cdaa497827f03d7cdb1386"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string",
-            "required": true,
-            "description": "JWT token. Format: Bearer {token}"
           }
         ],
         "responses": {
