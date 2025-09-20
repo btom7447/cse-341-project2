@@ -2,6 +2,7 @@ const { getDb } = require("../data/database");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// Register Users
 exports.register = async (req, res) => {
   //#swagger.tags=['Users]
   try {
@@ -37,7 +38,7 @@ exports.register = async (req, res) => {
   }
 };
 
-
+// Login
 exports.login = async (req, res) => {
   //#swagger.tags=['Users]
   try {

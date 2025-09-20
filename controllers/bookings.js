@@ -2,6 +2,7 @@ const { getDb } = require("../data/database");
 const { body, validationResult } = require("express-validator");
 const { ObjectId } = require("mongodb");
 
+// Validation middleware
 exports.validate = [
   body("movie").isString().notEmpty(),
   body("theater").isString().notEmpty(),
@@ -11,23 +12,24 @@ exports.validate = [
   body("quantity").isInt({ min: 1 }),
 ];
 
+// GET all bookings
 exports.getAll = async (req, res) => {
-  //#swagger.tags=['Bookings]
+  //#swagger.tags=['Bookings']
   try {
     const db = getDb();
     const bookings = await db.collection("bookings").find().toArray();
-    res.status(200).json({ bookings });
+    res.json({ success: true, data: bookings });
   } catch (err) {
-    console.error("Get all bookings error:", err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ success: false, error: "Server error" });
   }
 };
 
+// CREATE booking
 exports.create = async (req, res) => {
-  //#swagger.tags=['Bookings]
+  //#swagger.tags=['Bookings']
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success: false, errors: errors.array() });
   }
 
   try {
@@ -47,28 +49,29 @@ exports.create = async (req, res) => {
     });
 
     res.status(201).json({
+      success: true,
       message: "Booking created successfully",
-      bookingId: result.insertedId,
+      data: { id: result.insertedId },
     });
   } catch (err) {
-    console.error("Create booking error:", err);
-    res.status(500).json({ error: "Server error" });
+    console.error("Bookings error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 };
 
+// UPDATE booking
 exports.update = async (req, res) => {
-  //#swagger.tags=['Bookings]
-  try {
-    const { id } = req.params;
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid booking ID format" });
-    }
+  //#swagger.tags=['Bookings']
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ success: false, error: "Invalid booking ID" });
+  }
 
+  try {
     const db = getDb();
     const { movie, theater, showTime, seat, price, quantity, category } = req.body;
 
     const result = await db.collection("bookings").updateOne(
-      { _id: new ObjectId(id) },
+      { _id: new ObjectId(req.params.id) },
       {
         $set: {
           movie,
@@ -84,34 +87,36 @@ exports.update = async (req, res) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).json({ error: "Booking not found" });
+      return res.status(404).json({ success: false, error: "Booking not found" });
     }
 
-    res.status(200).json({ message: "Booking updated successfully" });
+    res.json({ success: true, message: "Booking updated successfully" });
   } catch (err) {
-    console.error("Update booking error:", err);
-    res.status(500).json({ error: "Server error" });
+    console.error("Bookings error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 };
 
+// DELETE booking
 exports.delete = async (req, res) => {
-  //#swagger.tags=['Bookings]
-  try {
-    const { id } = req.params;
-    if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ error: "Invalid booking ID format" });
-    }
+  //#swagger.tags=['Bookings']
+  if (!ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ success: false, error: "Invalid booking ID" });
+  }
 
+  try {
     const db = getDb();
-    const result = await db.collection("bookings").deleteOne({ _id: new ObjectId(id) });
+    const result = await db.collection("bookings").deleteOne({
+      _id: new ObjectId(req.params.id),
+    });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: "Booking not found" });
+      return res.status(404).json({ success: false, error: "Booking not found" });
     }
 
-    res.status(200).json({ message: "Booking deleted successfully" });
+    res.json({ success: true, message: "Booking deleted successfully" });
   } catch (err) {
-    console.error("Delete booking error:", err);
-    res.status(500).json({ error: "Server error" });
+    console.error("Bookings error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 };

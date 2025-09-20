@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ error: "No token provided" });
   }
 
-  // If user pasted only the raw token, prepend "Bearer "
+  // prepend "Bearer " to header
   if (!authHeader.startsWith("Bearer ")) {
     authHeader = `Bearer ${authHeader}`;
   }
