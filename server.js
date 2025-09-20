@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require("cors");
 const bodyParser = require('body-parser');
 const mongodb = require('./data/database');
 const app = express();
@@ -6,6 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware to parse JSON
+app.use(cors());
 app.use(express.json());
 
 app.use(bodyParser.json());

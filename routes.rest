@@ -18,8 +18,8 @@ POST http://localhost:3000/users/login
 Content-Type: application/json
 
 {
-  "email": "benjamintom@gmail.com",
-  "password": "Benjamin@Tom"
+  "email": "ekeminitom@gmail.com",
+  "password": "Ekemini@Tom"
 }
 
 # Copy the "token" from the login response and replace {{TOKEN}} below
@@ -34,7 +34,7 @@ GET http://localhost:3000/bookings
 ### Create Booking (requires token)
 POST http://localhost:3000/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODJlZDc2YjdkYzIzMjEyMmY1NCIsImVtYWlsIjoiZWtlbWluaXRvbUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTgzNTcxODAsImV4cCI6MTc1ODM2MDc4MH0.ASSSoQVobgsvJkxc8v8FYa8hLnL5Squd9eEK6O0vpQg
 
 {
   "movie": "Red Notice",
@@ -49,7 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1Z
 ### Update Booking (requires token)
 PUT http://localhost:3000/bookings/68cdaa497827f03d7cdb1386
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODJlZDc2YjdkYzIzMjEyMmY1NCIsImVtYWlsIjoiZWtlbWluaXRvbUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTgzNTcxODAsImV4cCI6MTc1ODM2MDc4MH0.ASSSoQVobgsvJkxc8v8FYa8hLnL5Squd9eEK6O0vpQg
 
 {
   "movie": "The Conjuring - The Finale",
@@ -63,4 +63,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1Z
 
 ### Delete Booking (requires token)
 DELETE http://localhost:3000/bookings/68cdaa497827f03d7cdb1386
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODM1ZDc2YjdkYzIzMjEyMmY1NSIsImVtYWlsIjoiYmVuamFtaW50b21AZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTgzMTkxMTksImV4cCI6MTc1ODMyMjcxOX0.A3TWFOroZo-ORuwh-GxjOcbfjbsBuORpMkSte_Xcrts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4Y2RhODJlZDc2YjdkYzIzMjEyMmY1NCIsImVtYWlsIjoiZWtlbWluaXRvbUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTgzNTcxODAsImV4cCI6MTc1ODM2MDc4MH0.ASSSoQVobgsvJkxc8v8FYa8hLnL5Squd9eEK6O0vpQg
