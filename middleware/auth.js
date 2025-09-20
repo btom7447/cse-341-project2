@@ -14,9 +14,9 @@ module.exports = (req, res, next) => {
   // Always split properly
   const token = authHeader.split(" ")[1];
 
-  // 🔍 Debug logs
-  console.log("Auth header:", authHeader);
-  console.log("Extracted token:", token);
+  // // 🔍 Debug logs
+  // console.log("Auth header:", authHeader);
+  // console.log("Extracted token:", token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
